@@ -5,53 +5,235 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Digital Literacy Chatbot</title>
+    <title>Digital Literacy Assistant</title>
 
-    <link rel="stylesheet"href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>Digital Literacy Chatbot</h1>
-        <p>Your Digital Literacy Assistant</p>
-    </header>
+    <div class="app">
 
-    <main>
-
-        <div id="chat-box">
-
-            <div class="bot-message">
-                Hello! 👋🏻 I am your Digital Literacy Assistant.<br>
-                How can I help you today?
+        <header class="header">
+            <div>
+                <h1>🤖 Digital Literacy Assistant</h1>
+                <p>Your smart guide to the digital world</p>
             </div>
+
+            <button id="clear-button" title="Clear chat">
+                🗑️
+            </button>
+        </header>
+
+
+        <main id="chat-box">
+
+            <div class="welcome">
+
+                <div class="bot-avatar">🤖</div>
+
+                <h2>Hello! 👋</h2>
+
+                <p>
+                    I am your Digital Literacy Assistant.
+                    Ask me anything about computers, internet,
+                    cybersecurity, online payments, social media,
+                    passwords and more.
+                </p>
+
+                <div class="suggestions">
+
+                    <button class="suggestion">
+                        What is digital literacy?
+                    </button>
+
+                    <button class="suggestion">
+                        How can I stay safe online?
+                    </button>
+
+                    <button class="suggestion">
+                        What is phishing?
+                    </button>
+
+                    <button class="suggestion">
+                        How to create a strong password?
+                    </button>
+
+                </div>
+
+            </div>
+
+        </main>
+
+
+        <div class="input-area">
+
+            <button id="voice-button" title="Voice input">
+                🎤
+            </button>
+
+            <input
+                type="text"
+                id="user-input"
+                placeholder="Ask me anything about digital literacy..."
+                autocomplete="off"
+            >
+
+            <button id="send-button">
+                Send
+            </button>
+
+        </div>
+        
+    <div class="videos">
+
+    <h2>🎥 Learn Digital Literacy</h2>
+
+    <div class="video-grid">
+
+        <div class="video-card">
+
+            <div class="video-icon">▶️</div>
+
+            <h3>Online Safety</h3>
+
+            <p>
+                Learn basic tips for staying safe while using the internet.
+            </p>
+
+            <a
+                href="https://www.youtube.com/results?search_query=online+safety+for+beginners"
+                target="_blank"
+            >
+                Watch Videos →
+            </a>
 
         </div>
 
-       <div class="input-area">
 
-    <select id="language-select">
-        <option value="english">English</option>
-        <option value="hindi">Hindi</option>
-        <option value="marathi">Marathi</option>
-    </select>
+        <div class="video-card">
 
-    <input 
-        type="text" 
-        id="user-input"
-        placeholder="Type your message..."
-    >
+            <div class="video-icon">▶️</div>
 
-    <button id="send-button">
-        Send
-    </button>
+            <h3>Cybersecurity Basics</h3>
+
+            <p>
+                Understand common cyber threats and how to protect yourself.
+            </p>
+
+            <a
+                href="https://www.youtube.com/results?search_query=cybersecurity+basics+for+beginners"
+                target="_blank"
+            >
+                Watch Videos →
+            </a>
+
+        </div>
+
+
+        <div class="video-card">
+
+            <div class="video-icon">▶️</div>
+
+            <h3>Digital Payments</h3>
+
+            <p>
+                Learn safe practices for UPI and online payments.
+            </p>
+
+            <a
+                href="https://www.youtube.com/results?search_query=UPI+digital+payment+safety"
+                target="_blank"
+            >
+                Watch Videos →
+            </a>
+
+        </div>
+
+    </div>
+
+</div>    
+           
+        <div class="footer">
+            Digital Literacy Assistant • Learn • Stay Safe • Be Digital
+        </div>
+
+    </div>
+
+<div class="topics">
+
+    <h2>💡 Explore Digital Literacy</h2>
+
+    <div class="topic-grid">
+
+        <button class="topic-button" onclick="sendMessage('What is digital literacy?')">
+            📚 Digital Literacy
+        </button>
+
+        <button class="topic-button" onclick="sendMessage('How can I stay safe online?')">
+            🛡️ Online Safety
+        </button>
+
+        <button class="topic-button" onclick="sendMessage('What is phishing?')">
+            🎣 Phishing
+        </button>
+
+        <button class="topic-button" onclick="sendMessage('How to create a strong password?')">
+            🔐 Passwords
+        </button>
+
+        <button class="topic-button" onclick="sendMessage('What is cybersecurity?')">
+            💻 Cybersecurity
+        </button>
+
+        <button class="topic-button" onclick="sendMessage('How can I safely use UPI?')">
+            💳 UPI Safety
+        </button>
+
+    </div>
+
+</div>    
+
+<div class="about-section">
+
+    <h2>ℹ️ About Digital Literacy Assistant</h2>
+
+    <p>
+        Digital Literacy Assistant is an educational chatbot designed
+        to help users understand and safely use digital technology.
+    </p>
+
+    <div class="about-features">
+
+        <div>
+            🤖
+            <strong>Chatbot</strong>
+            <span>Ask digital literacy questions.</span>
+        </div>
+
+        <div>
+            🎤
+            <strong>Voice</strong>
+            <span>Use your microphone to ask questions.</span>
+        </div>
+
+        <div>
+            🌍
+            <strong>Languages</strong>
+            <span>English, Hindi and Marathi support.</span>
+        </div>
+
+        <div>
+            📚
+            <strong>Learning</strong>
+            <span>Resources and videos for learning.</span>
+        </div>
+
+    </div>
 
 </div>
+    <script src="script.js"></script>
 
-    </main>
+</body>
 
-      <script src="script.js"></script>
-
-    </body>
-
-    </html>
+</html>
