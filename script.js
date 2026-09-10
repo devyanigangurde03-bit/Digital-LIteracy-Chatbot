@@ -5,14 +5,20 @@ const voiceButton = document.getElementById("voice-button");
 const clearButton = document.getElementById("clear-button");
 
 
+/* =========================================
+   ADD MESSAGE
+========================================= */
+
 function addMessage(text, type) {
 
     const message = document.createElement("div");
 
+    message.classList.add("message");
+
     if (type === "user") {
-        message.className = "user-message";
+        message.classList.add("user-message");
     } else {
-        message.className = "bot-message";
+        message.classList.add("bot-message");
     }
 
     message.textContent = text;
@@ -23,414 +29,207 @@ function addMessage(text, type) {
 }
 
 
+/* =========================================
+   LANGUAGE DETECTION
+========================================= */
+
 function detectLanguage(text) {
 
-    const lowerText = text.toLowerCase();
+    if (/[\u0900-\u097F]/.test(text)) {
+        return "hindi";
+    }
 
-
-    // Marathi Devanagari
+    const lower = text.toLowerCase();
 
     const marathiWords = [
-        "मला",
-        "माझा",
-        "माझी",
-        "काय",
-        "कसे",
-        "कशी",
-        "आहे",
-        "म्हणजे",
-        "करावे",
-        "सांगा",
-        "तुम्ही",
-        "सुरक्षित",
-        "पासवर्ड",
-        "संगणक"
+        "kay", "ahe", "aahe", "mala",
+        "majha", "majhi", "kasa",
+        "kashi", "tumhi", "mi",
+        "sanga", "sang", "mhanje"
     ];
-
-
-    for (let word of marathiWords) {
-
-        if (text.includes(word)) {
-
-            return "marathi";
-
-        }
-
-    }
-
-
-    // Hindi Devanagari
 
     const hindiWords = [
-        "मुझे",
-        "मेरा",
-        "मेरी",
-        "क्या",
-        "कैसे",
-        "कैसी",
-        "है",
-        "बताओ",
-        "आप",
-        "कंप्यूटर",
-        "सुरक्षित",
-        "पासवर्ड"
+        "kya", "hai", "mujhe", "mera",
+        "meri", "kaise", "aap",
+        "batao", "bataiye"
     ];
 
-
-    for (let word of hindiWords) {
-
-        if (text.includes(word)) {
-
-            return "hindi";
-
-        }
-
-    }
-
-
-    // Roman Marathi
-
-    const romanMarathiWords = [
-        "mala",
-        "majha",
-        "majhi",
-        "kay",
-        "kase",
-        "kashi",
-        "ahe",
-        "mhanje",
-        "sanga",
-        "tumhi",
-        "karave"
-    ];
-
-
-    for (let word of romanMarathiWords) {
-
-        if (lowerText.includes(word)) {
-
+    if (marathiWords.some(word => lower.includes(word))) {
             return "marathi";
-
-        }
-
     }
 
-
-    // Roman Hindi
-
-    const romanHindiWords = [
-        "mujhe",
-        "mera",
-        "meri",
-        "kya",
-        "kaise",
-        "kaisi",
-        "hai",
-        "batao",
-        "aap"
-    ];
-
-
-    for (let word of romanHindiWords) {
-
-        if (lowerText.includes(word)) {
-
+    if (hindiWords.some(word => lower.includes(word))) {
             return "hindi";
-
-        }
-
     }
-
-
-    // Default language
 
     return "english";
 }
 
 
+/* =========================================
+   BOT RESPONSES
+========================================= */
+
 function getResponse(message) {
 
     const text = message.toLowerCase();
-
     const language = detectLanguage(message);
 
 
-    /* PHISHING */
+    /* MARATHI */
+
+        if (language === "marathi") {
+
+        if (text.includes("phishing")) {
+            return "Phishing mhanje fake message, email kiwa website vaprun tumchi personal information, password kiwa OTP chornyacha prayatna. Unknown links var click karu naka.";
+        }
+
+        if (text.includes("password")) {
+            return "Strong password madhye uppercase, lowercase, numbers ani special characters asavet. Pratyek account sathi vegla password vapra.";
+    }
+
+        if (text.includes("digital literacy")) {
+            return "Digital literacy mhanje computer, internet, mobile apps ani online services yanchya safe ani effective vapracha knowledge.";
+        }
+
+        if (text.includes("upi") || text.includes("payment")) {
+            return "UPI vapartana tumcha UPI PIN konalahi sangu naka. पैसे receive karanyasathi PIN taknyachi garaj naste. Unknown payment requests accept karu naka.";
+        }
+
+        return "Digital technology vapartana strong passwords, OTP safety, phishing awareness ani privacy yanchi kalji ghya.";
+    }
+
+
+    /* HINDI */
+
+        if (language === "hindi") {
+
+        if (text.includes("phishing")) {
+            return "Phishing ek online fraud hai jisme fake messages, emails ya websites ke through password, OTP ya personal information churaane ki koshish ki jaati hai.";
+        }
+
+        if (text.includes("password")) {
+            return "Strong password mein uppercase, lowercase, numbers aur special characters hone chahiye. Har account ke liye alag password use karein.";
+        }
+
+        if (text.includes("digital literacy")) {
+            return "Digital literacy ka matlab computer, internet, mobile apps aur online services ko safely aur effectively use karne ki knowledge hai.";
+    }
+
+        if (text.includes("upi") || text.includes("payment")) {
+            return "UPI PIN kisi ke saath share na karein. Paise receive karne ke liye UPI PIN ki zarurat nahi hoti. Unknown payment requests se bachein.";
+        }
+
+        return "Online safe rehne ke liye strong passwords, OTP safety, phishing awareness aur privacy ka dhyan rakhein.";
+    }
+
+
+    /* ENGLISH */
+
+    if (
+    text === "hi" ||
+    text === "hello" ||
+    text === "hey" ||
+    text.startsWith("hi ") ||
+    text.startsWith("hello ") ||
+    text.startsWith("hey ")
+) {
+    return "Hello! 👋 I am your Digital Literacy Assistant. Ask me anything about digital technology, internet safety, cybersecurity or online payments.";
+}
+
+
+    if (text.includes("digital literacy")) {
+        return "Digital literacy means having the knowledge and skills to use computers, smartphones, the internet and digital services safely and effectively.";
+    }
+
 
     if (
         text.includes("phishing") ||
-        text.includes("फिशिंग")
+        text.includes("phishing attack")
     ) {
-
-        if (language === "hindi") {
-
-            return "Phishing एक ऑनलाइन धोखाधड़ी है जिसमें नकली ईमेल, मैसेज या वेबसाइट के जरिए आपकी personal information, password, OTP या bank details चुराने की कोशिश की जाती है।";
-
-        }
-
-        if (language === "marathi") {
-
-            return "Phishing म्हणजे ऑनलाइन फसवणुकीचा एक प्रकार आहे. यामध्ये बनावट ईमेल, मेसेज किंवा वेबसाइटच्या माध्यमातून password, OTP किंवा bank details चोरण्याचा प्रयत्न केला जातो.";
-
-        }
-
-        return "Phishing is an online scam where attackers use fake emails, messages or websites to trick you into giving away passwords, OTPs, bank details or other personal information.";
+        return "Phishing is an online scam where attackers use fake emails, messages or websites to trick people into sharing passwords, OTPs, bank details or other personal information.";
     }
 
-
-    /* DIGITAL LITERACY */
-
-    if (
-        text.includes("digital literacy") ||
-        text.includes("डिजिटल साक्षरता")
-    ) {
-
-        if (language === "hindi") {
-
-            return "Digital literacy का मतलब digital devices, internet और online services का सुरक्षित और प्रभावी तरीके से उपयोग करने की क्षमता है.";
-
-        }
-
-        if (language === "marathi") {
-
-            return "Digital literacy म्हणजे digital devices, internet आणि online services यांचा सुरक्षित आणि प्रभावी वापर करण्याची क्षमता.";
-
-        }
-
-        return "Digital literacy is the ability to use digital devices, the internet and online services safely, effectively and responsibly.";
-    }
-
-
-    /* PASSWORD */
 
     if (
         text.includes("password") ||
-        text.includes("पासवर्ड")
+        text.includes("strong password")
     ) {
-
-        if (language === "hindi") {
-
-            return "एक मजबूत password लंबा और unique होना चाहिए। अपना नाम, जन्मतिथि या mobile number password में इस्तेमाल न करें।";
-
-        }
-
-        if (language === "marathi") {
-
-            return "मजबूत password मोठा आणि unique असावा. तुमचे नाव, जन्मतारीख किंवा mobile number password मध्ये वापरू नका.";
-
-        }
-
-        return "A strong password should be long and unique. Avoid using your name, birthday or phone number. Use a different password for important accounts.";
+        return "A strong password should be long and difficult to guess. Use uppercase and lowercase letters, numbers and special characters. Avoid using your name, birthday or phone number.";
     }
 
-
-    /* CYBERSECURITY */
 
     if (
         text.includes("cybersecurity") ||
-        text.includes("cyber security") ||
-        text.includes("सायबर सुरक्षा")
+        text.includes("cyber security")
     ) {
-
-        if (language === "hindi") {
-
-            return "Cybersecurity का मतलब computers, mobile phones, networks और personal information को digital threats और attacks से सुरक्षित रखना है.";
-
-        }
-
-        if (language === "marathi") {
-
-            return "Cybersecurity म्हणजे computers, mobile phones, networks आणि personal information यांचे digital threats आणि attacks पासून संरक्षण करणे.";
-
-        }
-
-        return "Cybersecurity means protecting computers, mobile phones, networks and personal information from digital threats and attacks.";
+        return "Cybersecurity means protecting computers, phones, networks and personal information from cyber attacks, malware, scams and unauthorized access.";
     }
 
-
-    /* INTERNET */
 
     if (
-        text.includes("internet") ||
-        text.includes("इंटरनेट")
+        text.includes("safe online") ||
+        text.includes("online safety")
     ) {
-
-        if (language === "hindi") {
-
-            return "Internet एक global network है जो computers और devices को connect करता है और information sharing तथा communication की सुविधा देता है.";
-
-        }
-
-        if (language === "marathi") {
-
-            return "Internet हे एक global network आहे जे computers आणि devices ला जोडते आणि information sharing व communication करण्यास मदत करते.";
-
-        }
-
-        return "The internet is a global network that connects computers and devices and allows people to communicate and share information.";
+        return "To stay safe online, use strong passwords, enable two-factor authentication, avoid suspicious links, never share OTPs and keep your apps and devices updated.";
     }
 
-
-    /* COMPUTER */
-
-    if (
-        text.includes("computer") ||
-        text.includes("कंप्यूटर") ||
-        text.includes("संगणक")
-    ) {
-
-        if (language === "hindi") {
-
-            return "Computer एक electronic device है जो data को process करता है और दिए गए instructions के अनुसार काम करता है.";
-
-        }
-
-        if (language === "marathi") {
-
-            return "Computer म्हणजे एक electronic device आहे जे data वर process करते आणि दिलेल्या instructions नुसार काम करते.";
-
-        }
-
-        return "A computer is an electronic device that processes data and performs tasks according to instructions.";
-    }
-
-
-    /* OTP */
 
     if (text.includes("otp")) {
-
-        if (language === "hindi") {
-
-            return "OTP का मतलब One-Time Password है। OTP किसी भी व्यक्ति के साथ share नहीं करना चाहिए, चाहे वह bank employee होने का दावा करे.";
-
-        }
-
-        if (language === "marathi") {
-
-            return "OTP म्हणजे One-Time Password. OTP कोणत्याही व्यक्तीसोबत share करू नये, जरी ती व्यक्ती bank employee असल्याचे सांगत असेल.";
-
-        }
-
-        return "OTP means One-Time Password. Never share your OTP with anyone, even if they claim to be a bank employee.";
+        return "Never share your OTP with anyone. Banks and legitimate services will not ask you to reveal your OTP over a call or message.";
     }
 
-
-    /* UPI */
 
     if (
         text.includes("upi") ||
         text.includes("gpay") ||
+        text.includes("google pay") ||
         text.includes("phonepe") ||
         text.includes("paytm") ||
         text.includes("online payment")
     ) {
-
-        if (language === "hindi") {
-
-            return "Online payment करते समय UPI PIN और OTP कभी share न करें। Payment करने से पहले receiver और amount को ध्यान से check करें.";
-
-        }
-
-        if (language === "marathi") {
-
-            return "Online payment करताना UPI PIN आणि OTP कधीही share करू नका. Payment करण्यापूर्वी receiver आणि amount तपासा.";
-
-        }
-
-        return "When making an online payment, never share your UPI PIN or OTP. Always check the receiver and amount before confirming the payment.";
+        return "For safe UPI payments, never share your UPI PIN or OTP. Remember: you do not need to enter your UPI PIN to receive money.";
     }
 
 
-    /* SOCIAL MEDIA */
-
-    if (
-        text.includes("social media") ||
-        text.includes("सोशल मीडिया")
-    ) {
-
-        if (language === "hindi") {
-
-            return "Social media का सुरक्षित उपयोग करें। Personal information कम share करें, privacy settings का उपयोग करें और unknown links से बचें.";
-
-        }
-
-        if (language === "marathi") {
-
-            return "Social media चा सुरक्षित वापर करा. Personal information कमी share करा, privacy settings वापरा आणि unknown links टाळा.";
-
-        }
-
-        return "Use social media safely. Limit the personal information you share, use privacy settings and avoid unknown links.";
+    if (text.includes("internet")) {
+        return "The internet is a global network that connects computers, smartphones and other devices so people can communicate, access information and use online services.";
     }
 
 
-    /* GREETING */
-
-    if (
-        text.includes("hello") ||
-        text.includes("hi") ||
-        text.includes("hey") ||
-        text.includes("नमस्ते") ||
-        text.includes("नमस्कार")
-    ) {
-
-        if (language === "hindi") {
-
-            return "नमस्ते! 👋 मैं आपका Digital Literacy Assistant हूँ। आप मुझसे internet, phishing, passwords, cybersecurity, UPI और computers के बारे में पूछ सकते हैं।";
-
-        }
-
-        if (language === "marathi") {
-
-            return "नमस्कार! 👋 मी तुमचा Digital Literacy Assistant आहे. तुम्ही मला internet, phishing, passwords, cybersecurity, UPI आणि computers बद्दल विचारू शकता.";
-
-        }
-
-        return "Hello! 👋 I am your Digital Literacy Assistant. You can ask me about internet, phishing, passwords, cybersecurity, UPI and computers.";
+    if (text.includes("computer")) {
+        return "A computer is an electronic device that accepts data, processes it, stores information and produces useful results.";
     }
 
 
-    /* DEFAULT */
-
-    if (language === "hindi") {
-
-        return "मैं Digital Literacy Assistant हूँ। आप मुझसे phishing, cybersecurity, internet, passwords, OTP, UPI और computers के बारे में पूछ सकते हैं.";
-
+    if (text.includes("social media")) {
+        return "Use social media carefully. Avoid sharing sensitive personal information, use privacy settings and be careful when accepting requests from unknown people.";
     }
 
-    if (language === "marathi") {
 
-        return "मी Digital Literacy Assistant आहे. तुम्ही मला phishing, cybersecurity, internet, passwords, OTP, UPI आणि computers बद्दल विचारू शकता.";
-
-    }
-
-    return "I am your Digital Literacy Assistant. You can ask me about phishing, cybersecurity, internet, passwords, OTP, UPI, computers and online safety.";
+    return "I can help you with digital literacy, online safety, phishing, passwords, cybersecurity, OTP, UPI, internet, computers and social media. Try asking me one of these topics.";
 }
 
 
-/* SEND MESSAGE */
+/* =========================================
+   SEND MESSAGE
+========================================= */
 
-function sendMessage(message) {
+function sendMessage(message = null) {
 
-    if (!message) {
-        message = input.value.trim();
-    }
+    const userMessage = message || input.value.trim();
 
-    if (message === "") {
+    if (userMessage === "") {
         return;
     }
 
-
-    addMessage(message, "user");
+    addMessage(userMessage, "user");
 
     input.value = "";
 
-
-    setTimeout(function () {
-
     const typing = document.createElement("div");
 
-    typing.className = "bot-message";
+    typing.classList.add("message", "bot-message");
 
     typing.textContent = "Typing...";
 
@@ -439,49 +238,53 @@ function sendMessage(message) {
     chatBox.scrollTop = chatBox.scrollHeight;
 
 
-    setTimeout(function () {
+    setTimeout(() => {
+    typing.remove();
 
-    const response = getResponse(message);
+    const response = getResponse(userMessage);
 
-    typing.textContent = response;
+    addMessage(response, "bot");
 
-    speak(response, detectLanguage(message));
+    const speech = new SpeechSynthesisUtterance(response);
+    speech.lang = "en-IN";
+    speech.rate = 0.95;
+    speech.pitch = 1;
 
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-}, 800);
-
-}, 300);
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(speech);
+}, 500);
 }
 
 
-/* SEND BUTTON */
+/* =========================================
+   SEND BUTTON
+========================================= */
 
-sendButton.addEventListener("click", function () {
-
+sendButton.addEventListener("click", () => {
     sendMessage();
-
 });
 
 
-/* ENTER KEY */
+/* =========================================
+   ENTER KEY
+========================================= */
 
-input.addEventListener("keydown", function (event) {
+input.addEventListener("keydown", (event) => {
 
     if (event.key === "Enter") {
-
         sendMessage();
-
     }
 
 });
 
 
-/* SUGGESTION BUTTONS */
+/* =========================================
+   SUGGESTION BUTTONS
+========================================= */
 
-document.querySelectorAll(".suggestion").forEach(function (button) {
+document.querySelectorAll(".suggestion").forEach(button => {
 
-    button.addEventListener("click", function () {
+    button.addEventListener("click", () => {
 
         sendMessage(button.textContent.trim());
 
@@ -490,108 +293,106 @@ document.querySelectorAll(".suggestion").forEach(function (button) {
 });
 
 
-/* CLEAR CHAT */
+/* =========================================
+   CLEAR CHAT
+========================================= */
 
-clearButton.addEventListener("click", function () {
+clearButton.addEventListener("click", () => {
 
-    chatBox.innerHTML = "";
+    chatBox.innerHTML = `
+        <div class="welcome">
+
+            <div class="bot-avatar">🤖</div>
+
+            <h2>Hello! 👋</h2>
+
+            <p>
+                I am your Digital Literacy Assistant.
+                Ask me anything about computers, internet,
+                cybersecurity, online payments, social media,
+                passwords and more.
+            </p>
+
+            <div class="suggestions">
+
+                <button class="suggestion">
+                    What is digital literacy?
+                </button>
+
+                <button class="suggestion">
+                    How can I stay safe online?
+                </button>
+
+                <button class="suggestion">
+                    What is phishing?
+                </button>
+
+                <button class="suggestion">
+                    How to create a strong password?
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+    document.querySelectorAll(".suggestion").forEach(button => {
+
+        button.addEventListener("click", () => {
+            sendMessage(button.textContent.trim());
+        });
+
+    });
 
 });
 
 
-/* VOICE INPUT */
+/* =========================================
+   VOICE INPUT
+========================================= */
 
 const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
-
 
 if (SpeechRecognition) {
 
     const recognition = new SpeechRecognition();
 
     recognition.continuous = false;
-
     recognition.interimResults = false;
-
     recognition.lang = "en-IN";
 
 
-    voiceButton.addEventListener("click", function () {
-
-    try {
+    voiceButton.addEventListener("click", () => {
 
         recognition.start();
 
         voiceButton.textContent = "🔴";
 
-        voiceButton.title = "Listening... Click to stop";
-
-    } catch (error) {
-
-        recognition.stop();
-
-    }
-
-});
+    });
 
 
-recognition.onresult = function (event) {
-
-    const spokenText =
-        event.results[0][0].transcript;
-
-    input.value = spokenText;
-
-    voiceButton.textContent = "🎤";
-
-    voiceButton.title = "Voice input";
-
-    sendMessage(spokenText);
-
-};
-
-
-recognition.onerror = function () {
-
-    voiceButton.textContent = "🎤";
-
-    voiceButton.title = "Voice input";
-
-};
-
-
-recognition.onend = function () {
-
-    voiceButton.textContent = "🎤";
-
-    voiceButton.title = "Voice input";
-
-};
-
-
-    recognition.onresult = function (event) {
+    recognition.onresult = (event) => {
 
         const spokenText =
             event.results[0][0].transcript;
 
         input.value = spokenText;
 
-        voiceButton.textContent = "🎤";
-
-        sendMessage(spokenText);
+        sendMessage();
 
     };
 
 
-    recognition.onerror = function () {
+    recognition.onerror = () => {
 
         voiceButton.textContent = "🎤";
 
     };
 
 
-    recognition.onend = function () {
+    recognition.onend = () => {
 
         voiceButton.textContent = "🎤";
 
@@ -599,40 +400,12 @@ recognition.onend = function () {
 
 } else {
 
-    voiceButton.disabled = true;
+    voiceButton.addEventListener("click", () => {
 
-    voiceButton.title =
-        "Voice input is not supported in this browser.";
+        alert(
+            "Voice input is not supported by this browser. Please try Google Chrome."
+        );
 
-}
+    });
 
-function speak(text, language) {
-
-    if (!("speechSynthesis" in window)) {
-        return;
-    }
-
-    const speech = new SpeechSynthesisUtterance(text);
-
-    if (language === "hindi") {
-
-        speech.lang = "hi-IN";
-
-    } else if (language === "marathi") {
-
-        speech.lang = "mr-IN";
-
-    } else {
-
-        speech.lang = "en-IN";
-
-    }
-
-    speech.rate = 0.9;
-
-    speech.pitch = 1;
-
-    window.speechSynthesis.cancel();
-
-    window.speechSynthesis.speak(speech);
 }
