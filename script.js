@@ -55,11 +55,11 @@ function detectLanguage(text) {
     ];
 
     if (marathiWords.some(word => lower.includes(word))) {
-            return "marathi";
+        return "marathi";
     }
 
     if (hindiWords.some(word => lower.includes(word))) {
-            return "hindi";
+        return "hindi";
     }
 
     return "english";
@@ -73,20 +73,22 @@ function detectLanguage(text) {
 function getResponse(message) {
 
     const text = message.toLowerCase();
-    const language = detectLanguage(message);
+    const languageCode = document.getElementById("language-select").value;
+const language = languageCode === "mr-IN" ? "marathi" :
+                 languageCode === "hi-IN" ? "hindi" : "english";
 
 
     /* MARATHI */
 
-        if (language === "marathi") {
+    if (language === "marathi") {
 
         if (text.includes("phishing")) {
-            return "Phishing mhanje fake message, email kiwa website vaprun tumchi personal information, password kiwa OTP chornyacha prayatna. Unknown links var click karu naka.";
+            return "फिशिंग म्हणजे बनावट मेसेज, ईमेल किंवा वेबसाइट वापरून तुमची वैयक्तिक माहिती चोरण्याचा प्रयत्न.";
         }
 
         if (text.includes("password")) {
-            return "Strong password madhye uppercase, lowercase, numbers ani special characters asavet. Pratyek account sathi vegla password vapra.";
-    }
+            return "मजबूत पासवर्डमध्ये मोठी अक्षरे, लहान अक्षरे, अंक आणि विशेष चिन्हे वापरा.";
+        }
 
         if (text.includes("digital literacy")) {
             return "Digital literacy mhanje computer, internet, mobile apps ani online services yanchya safe ani effective vapracha knowledge.";
@@ -102,19 +104,18 @@ function getResponse(message) {
 
     /* HINDI */
 
-        if (language === "hindi") {
+    if (language === "hindi") {
 
         if (text.includes("phishing")) {
-            return "Phishing ek online fraud hai jisme fake messages, emails ya websites ke through password, OTP ya personal information churaane ki koshish ki jaati hai.";
+           return "फिशिंग एक ऑनलाइन धोखाधड़ी है, जिसमें नकली संदेश, ईमेल या वेबसाइट के जरिए आपकी निजी जानकारी चुराने की कोशिश की जाती है।";
         }
 
-        if (text.includes("password")) {
-            return "Strong password mein uppercase, lowercase, numbers aur special characters hone chahiye. Har account ke liye alag password use karein.";
+           return "मजबूत पासवर्ड में बड़े अक्षर, छोटे अक्षर, अंक और विशेष चिन्हों का उपयोग करें।";
         }
 
         if (text.includes("digital literacy")) {
-            return "Digital literacy ka matlab computer, internet, mobile apps aur online services ko safely aur effectively use karne ki knowledge hai.";
-    }
+           return "डिजिटल साक्षरता का मतलब कंप्यूटर, इंटरनेट, मोबाइल ऐप और ऑनलाइन सेवाओं का सुरक्षित और सही उपयोग करना है।";
+        }
 
         if (text.includes("upi") || text.includes("payment")) {
             return "UPI PIN kisi ke saath share na karein. Paise receive karne ke liye UPI PIN ki zarurat nahi hoti. Unknown payment requests se bachein.";
@@ -246,7 +247,7 @@ function sendMessage(message = null) {
     addMessage(response, "bot");
 
     const speech = new SpeechSynthesisUtterance(response);
-    speech.lang = "en-IN";
+    speech.lang = document.getElementById("language-select").value;
     speech.rate = 0.95;
     speech.pitch = 1;
 
@@ -361,11 +362,10 @@ if (SpeechRecognition) {
 
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.lang = "en-IN";
-
+    recognition.lang = document.getElementById("language-select").value;
 
     voiceButton.addEventListener("click", () => {
-
+    recognition.lang = document.getElementById("language-select").value;
         recognition.start();
 
         voiceButton.textContent = "🔴";
