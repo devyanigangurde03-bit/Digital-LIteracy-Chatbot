@@ -82,36 +82,38 @@ const language = languageCode === "mr-IN" ? "marathi" :
 
     if (language === "marathi") {
 
-        if (text.includes("phishing")) {
-            return "फिशिंग म्हणजे बनावट मेसेज, ईमेल किंवा वेबसाइट वापरून तुमची वैयक्तिक माहिती चोरण्याचा प्रयत्न.";
-        }
-
-        if (text.includes("password")) {
-            return "मजबूत पासवर्डमध्ये मोठी अक्षरे, लहान अक्षरे, अंक आणि विशेष चिन्हे वापरा.";
-        }
-
-        if (text.includes("digital literacy")) {
-            return "Digital literacy mhanje computer, internet, mobile apps ani online services yanchya safe ani effective vapracha knowledge.";
-        }
-
-        if (text.includes("upi") || text.includes("payment")) {
-            return "UPI vapartana tumcha UPI PIN konalahi sangu naka. पैसे receive karanyasathi PIN taknyachi garaj naste. Unknown payment requests accept karu naka.";
-        }
-
-        return "Digital technology vapartana strong passwords, OTP safety, phishing awareness ani privacy yanchi kalji ghya.";
+    if (text.includes("phishing") || text.includes("फिशिंग")) {
+        return "फिशिंग म्हणजे बनावट मेसेज, ईमेल किंवा वेबसाइट वापरून तुमची वैयक्तिक माहिती चोरण्याचा प्रयत्न.";
     }
 
+    if (text.includes("password") || text.includes("पासवर्ड")) {
+        return "मजबूत पासवर्डमध्ये मोठी अक्षरे, लहान अक्षरे, अंक आणि विशेष चिन्हे वापरा.";
+    }
+
+    if (text.includes("digital literacy") || text.includes("डिजिटल साक्षरता")) {
+        return "डिजिटल साक्षरता म्हणजे कॉम्प्युटर, इंटरनेट, मोबाइल अॅप्स आणि ऑनलाइन सेवा सुरक्षित आणि प्रभावीपणे वापरण्याचे ज्ञान.";
+    }
+
+    if (text.includes("upi") || text.includes("payment") || text.includes("यूपीआय") || text.includes("पेमेंट")) {
+        return "UPI वापरताना तुमचा UPI PIN कोणालाही सांगू नका. पैसे receive करण्यासाठी PIN टाकण्याची गरज नसते. Unknown payment requests accept करू नका.";
+    }
+
+    return "डिजिटल तंत्रज्ञान वापरताना strong passwords, OTP safety, phishing awareness आणि privacy ची काळजी घ्या.";
+}
 
     /* HINDI */
 
     if (language === "hindi") {
 
-        if (text.includes("phishing")) {
-           return "फिशिंग एक ऑनलाइन धोखाधड़ी है, जिसमें नकली संदेश, ईमेल या वेबसाइट के जरिए आपकी निजी जानकारी चुराने की कोशिश की जाती है।";
-        }
+    if (text.includes("phishing") || text.includes("फिशिंग")) {
+        return "फिशिंग एक ऑनलाइन धोखाधड़ी है, जिसमें नकली संदेश, ईमेल या वेबसाइट के जरिए आपकी निजी जानकारी चुराने की कोशिश की जाती है।";
+    }
 
-           return "मजबूत पासवर्ड में बड़े अक्षर, छोटे अक्षर, अंक और विशेष चिन्हों का उपयोग करें।";
-        }
+    if (text.includes("password") || text.includes("पासवर्ड")) {
+        return "मजबूत पासवर्ड में बड़े अक्षर, छोटे अक्षर, अंक और विशेष चिन्हों का उपयोग करें।";
+    }
+
+    if (text.includes("digital literacy")) {
 
         if (text.includes("digital literacy")) {
            return "डिजिटल साक्षरता का मतलब कंप्यूटर, इंटरनेट, मोबाइल ऐप और ऑनलाइन सेवाओं का सुरक्षित और सही उपयोग करना है।";
