@@ -1,3 +1,8 @@
+const languageSelect = document.getElementById("language-select");
+
+function getLangCode() {
+    return languageSelect ? languageSelect.value : "en-US";
+}
 const input = document.getElementById("user-input");
 const sendButton = document.getElementById("send-button");
 const chatBox = document.getElementById("chat-box");
@@ -113,7 +118,6 @@ const language = languageCode === "mr-IN" ? "marathi" :
         return "मजबूत पासवर्ड में बड़े अक्षर, छोटे अक्षर, अंक और विशेष चिन्हों का उपयोग करें।";
     }
 
-    if (text.includes("digital literacy")) {
 
         if (text.includes("digital literacy")) {
            return "डिजिटल साक्षरता का मतलब कंप्यूटर, इंटरनेट, मोबाइल ऐप और ऑनलाइन सेवाओं का सुरक्षित और सही उपयोग करना है।";
